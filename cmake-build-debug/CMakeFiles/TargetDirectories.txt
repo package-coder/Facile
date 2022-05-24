@@ -1,0 +1,3 @@
+C:/Users/CHRIS/CLionProjects/Facile/cmake-build-debug/CMakeFiles/Facile.dir
+C:/Users/CHRIS/CLionProjects/Facile/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/CHRIS/CLionProjects/Facile/cmake-build-debug/CMakeFiles/rebuild_cache.dir
