@@ -1,7 +1,7 @@
 
 ===========================================================================
 
-[UPDATES]: This code can now:
+<h2>[UPDATES]: This code can now:</h2>
 <ul>
   <li>Parse the varaiable block + variable declaration</li>
   <li>Parse the code block + some statement</li>
@@ -12,7 +12,7 @@
   
 ===========================================================================
 
-# Facile
+<h1>Facile</h1>
 
 #EBNF for facile language <br/>
 
