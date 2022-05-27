@@ -1,0 +1,8 @@
+//
+// Created by CHRIS on 5/27/2022.
+//
+
+#ifndef FACILE_COMPILATION_H
+#define FACILE_COMPILATION_H
+
+#endif //FACILE_COMPILATION_H
