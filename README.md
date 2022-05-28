@@ -1,16 +1,5 @@
 
-===========================================================================
-
-<h2>[UPDATES]: This code can now:</h2>
-<ul>
-  <li>Parse the varaiable block + variable declaration</li>
-  <li>Parse the code block + some statement</li>
-  <li>Parse the Number + String Literals</li>
-  <li>Parse the ConsoleWrite(PRT) Statment</li>
-  <li>Detect unexpected syntax</li>
-</ul>
-  
-===========================================================================
+ ===========================================================================
 
 <h1>Facile</h1>
 
