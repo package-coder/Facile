@@ -30,7 +30,9 @@ public:
 			{' ',		CHAR_TYPE::WHITESPACE},
 			{'{',		CHAR_TYPE::SPECIAL},
 			{'}',		CHAR_TYPE::SPECIAL},
-			{';',		CHAR_TYPE::SPECIAL},
+            {'(',		CHAR_TYPE::SPECIAL},
+            {')',		CHAR_TYPE::SPECIAL},
+            {';',		CHAR_TYPE::SPECIAL},
 			{'$',		CHAR_TYPE::STRING_DELIM},
 			{Scanner::EOF_CHAR, CHAR_TYPE::EOF_TYPE}
 		});

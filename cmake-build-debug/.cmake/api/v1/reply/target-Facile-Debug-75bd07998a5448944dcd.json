@@ -103,7 +103,8 @@
 				3,
 				4,
 				7,
-				8
+				8,
+				9
 			]
 		},
 		{
@@ -161,6 +162,11 @@
 		{
 			"backtrace" : 1,
 			"path" : "SyntaxType.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"path" : "Compilation.h",
 			"sourceGroupIndex" : 1
 		}
 	],

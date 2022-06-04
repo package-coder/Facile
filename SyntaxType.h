@@ -46,7 +46,6 @@ public:
         PLUS_TOKEN,
         MINUS_TOKEN,
         EOF_TOKEN,
-        DATATYPE_TOKEN,
         IDENTIFIER_TOKEN,
         OPEN_BRACE_TOKEN,
         CLOSE_BRACE_TOKEN,
@@ -55,18 +54,21 @@ public:
         SEMICOLON_TOKEN,
         DOLLAR_TOKEN,
 
-        //Blocks
-        VARIABLE_BLOCK,
-        CODE_BLOCK,
-
         //Statements
-        MULTIPLE_VARIABLE_DECLARATION,
-        VARIABLE_DECLARATION,
+        VARIABLE_STATEMENT,
+        CODE_STATEMENT,
+        MULTIPLE_DECLARATION_STATEMENT,
+        DECLARATION_STATEMENT,
         PRINT_STATEMENT,
+        PUT_STATEMENT,
+        ASK_STATEMENT,
 
         //Expressions
+        BINARY_EXPRESSION,
+        PARENTHESIZED_EXPRESSION,
         NUMBER_EXPRESSION,
-        STRING_LITERAL_EXPRESSION
+        LITERAL_EXPRESSION,
+        IDENTIFIER_EXPRESSION
     };
 
     static std::string toString(SYNTAX::TYPE type){
@@ -101,7 +103,6 @@ public:
             "PLUS_TOKEN",
             "MINUS_TOKEN",
             "EOF_TOKEN",
-            "DATATYPE_TOKEN",
             "IDENTIFIER_TOKEN",
             "OPEN_BRACE_TOKEN",
             "CLOSE_BRACE_TOKEN",
@@ -109,13 +110,18 @@ public:
             "CLOSE_PARENTHESIS_TOKEN",
             "SEMICOLON_TOKEN",
             "DOLLAR_TOKEN",
-            "VARIABLE_BLOCK",
-            "CODE_BLOCK",
-            "MULTIPLE_VARIABLE_DECLARATION",
-            "VARIABLE_DECLARATION",
+            "VARIABLE_STATEMENT",
+            "CODE_STATEMENT",
+            "MULTIPLE_DECLARATION_STATEMENT",
+            "DECLARATION_STATEMENT",
             "PRINT_STATEMENT",
+            "PUT_STATEMENT",
+            "ASK_STATEMENT",
+            "BINARY_EXPRESSION",
+            "PARENTHESIZED_EXPRESSION",
             "NUMBER_EXPRESSION",
-            "STRING_LITERAL_EXPRESSION",
+            "LITERAL_EXPRESSION",
+            "IDENTIFIER_EXPRESSION"
         };
 
         return str[(unsigned long)type];

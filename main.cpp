@@ -5,8 +5,8 @@
 
 #include "Scanner.h"
 #include "CharList.h"
-#include "SyntaxList.h"
 #include "SyntaxType.h"
+#include "Compilation.h"
 #include "Parser.h"
 
 using namespace std;
@@ -55,6 +55,8 @@ void printErrors(vector<string> errors){
     }
 }
 
+
+
 int main()
 {
 
@@ -86,16 +88,19 @@ int main()
 
         Parser parser(input);
         SyntaxTree* syntaxTree = parser.parse();
-        Syntax* root = syntaxTree->getRoot();
         Diagnostic diagnostic = parser.getDiagnostic();
 
         if(diagnostic.any()){
             printErrors(diagnostic.getErrors());
         }
         else {
-            print((SyntaxNode *) root);
+            print((SyntaxNode *) syntaxTree->getVariableStatement()); //variable block
+            cout << endl;
+            print((SyntaxNode *) syntaxTree->getCodeStatement()); //code block
+
+            Compilation::execute(syntaxTree);
         }
-        cout << endl;
+        cout << endl << endl;
     }
 
 
