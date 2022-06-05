@@ -17,10 +17,95 @@ using namespace std;
 using namespace scan;
 
 
+class Object{
+protected:
+    std::any value;
+public:
+    virtual SYNTAX::TYPE type() = 0;
 
-enum class TYPE{
+    bool matchType(Object& o){
+        return type() == o.type();
+    }
+
+    virtual string toString(){
+        return "Object";
+    }
+};
+
+class String : public Object{
+public:
+    String(std::string str){
+        value = str;
+    }
+
+    SYNTAX::TYPE type() override {
+        return SYNTAX::LITERAL_EXPRESSION;
+    }
+
+    std::string getValue(){
+        return any_cast<std::string>(value);
+    }
+
+    void setValue(const std::string& str){
+        value = str;
+    }
+
+    std::string toString() override {
+        return getValue();
+    }
 
 };
+
+class Integer : public Object{
+public:
+    Integer(int integer){
+        value = integer;
+    }
+
+    SYNTAX::TYPE type() override {
+        return SYNTAX::NUMBER_EXPRESSION;
+    }
+
+    int getValue(){
+        return any_cast<int>(value);
+    }
+
+    void setValue(int integer){
+        value = integer;
+    }
+
+    string toString() override {
+        stringstream ss;
+        ss << getValue();
+        return ss.str();
+    }
+};
+
+class Boolean : public Object{
+public:
+    Boolean(bool boolean){
+        value = boolean;
+    }
+
+    SYNTAX::TYPE type() override {
+        return SYNTAX::LITERAL_EXPRESSION;
+    }
+
+    bool getValue(){
+        return any_cast<bool>(value);
+    }
+
+    void setValue(bool boolean){
+        value = boolean;
+    }
+
+    string toString() override {
+        stringstream ss;
+        ss << getValue();
+        return ss.str();
+    }
+};
+
 
 class Diagnostic{
     std::vector<string> errors;
@@ -94,6 +179,10 @@ public:
 
     bool isEmpty() const {
         return !isPresent;
+    }
+
+    void setValue(const any &value) {
+        this->value = value;
     }
 
     friend ostream &operator<<(ostream &os, const SyntaxToken &token) {
@@ -458,7 +547,7 @@ public:
         return putKeyword;
     }
 
-    SyntaxNode *getStatement() const {
+    ExpressionSyntax *getExpression() const {
         return expression;
     }
 
