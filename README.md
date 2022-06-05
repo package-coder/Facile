@@ -1,21 +1,3 @@
-
-<<<<<<< HEAD
-===========================================================================
-
-<h2>[UPDATES]: This code can now:</h2>
-<ul>
-  <li>Parse the varaiable block + variable declaration</li>
-  <li>Parse the code block + some expression</li>
-  <li>Parse the Number + String Literals</li>
-  <li>Parse the ConsoleWrite(PRT) Statment</li>
-  <li>Detect unexpected syntax</li>
-</ul>
-  
-===========================================================================
-=======
- ===========================================================================
->>>>>>> c540a2f2a099254ea8ba10099b2c0090991ea6cb
-
 <h1>Facile</h1>
 
 #EBNF for facile language <br/>
