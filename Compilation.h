@@ -6,8 +6,12 @@
 #define FACILE_COMPILATION_H
 
 #include <iostream>
+#include <cassert>
 #include "Parser.h"
 #include "MapList.h"
+
+#define assertm(exp, msg) assert(((void)msg, exp))
+
 using namespace std;
 
 
@@ -15,7 +19,6 @@ class Compilation{
 private:
     SyntaxTree* tree;
     MapList<string, Object*> symbolTable;
-    
     
 
     void executeDeclaration(SyntaxNode* root){
@@ -27,25 +30,23 @@ private:
             string lexeme = identifierToken->getLexeme();
 
             SyntaxToken *dataTypeToken = declarationStatementSyntax->getDataTypeToken();
-            
-            if(!symbolTable.contains(lexeme)){
-                Object* object = nullptr;
-                switch (dataTypeToken->getTokenType()) {
-                    case SYNTAX::INT_KEYWORD:
-                        object = new Integer(0);
-                        break;
-                    case SYNTAX::STG_KEYWORD:
-                        object = new String("");
-                        break;
-                    case SYNTAX::BLN_KEYWORD:
-                        object = new Boolean(false);
-                        break;
-                }
-                symbolTable.put(lexeme, object);
+
+            //Redeclaration of variable
+            assert(!symbolTable.contains(lexeme));
+
+            Object* object = nullptr;
+            switch (dataTypeToken->getTokenType()) {
+                case SYNTAX::INT_KEYWORD:
+                    object = new Integer(0);
+                    break;
+                case SYNTAX::STG_KEYWORD:
+                    object = new String("");
+                    break;
+                case SYNTAX::BLN_KEYWORD:
+                    object = new Boolean(false);
+                    break;
             }
-            else
-                //TODO redeclaration of variable
-                ;
+            symbolTable.put(lexeme, object);
         }
 
         for(auto& item : root->getChildren())
@@ -73,7 +74,7 @@ private:
 
     void executePrintStatement(PrintStatementSyntax* root){
         Object *expression = executeExpression(dynamic_cast<ExpressionSyntax *>(root->getExpression()));
-        cout << expression->toString();
+        cout << expression->toString() << endl;
     }
 
     void executePutStatement(PutStatementSyntax* root){
@@ -83,11 +84,11 @@ private:
         const string &key = identifierToken->getLexeme();
         Object *tableValue = getSymbolTableValue(key);
         Object *expressionResult = executeExpression(expression);
-    
-        if(tableValue->matchType(reinterpret_cast<Object &>(expression))){
-            setSymbolTableValue(key, expressionResult);
-        }
 
+        //Data types must match
+        assert(tableValue->matchType(expressionResult));
+
+        setSymbolTableValue(key, expressionResult);
     }
 
     void executeAskStatement(AskStatementSyntax* root){
@@ -103,17 +104,8 @@ private:
             Object* leftExpression = executeExpression(binarySyntax->getLeftOperand());
             Object* rightExpression = executeExpression(binarySyntax->getRightOperand());
 
-            if(leftExpression->type() == SYNTAX::LITERAL_EXPRESSION){
-                stringstream ss;
-                ss << "Unexpected left expression <" << leftExpression->type() <<  "> in an arithmetic expression";
-                throw ss.str();
-            }
-
-            if(rightExpression->type() == SYNTAX::LITERAL_EXPRESSION){
-                stringstream ss;
-                ss << "Unexpected right expression <" << leftExpression->type() <<  "> in an arithmetic expression";
-                throw ss.str();
-            }
+            assert(leftExpression->type() != SYNTAX::LITERAL_EXPRESSION);
+            assert(rightExpression->type() != SYNTAX::LITERAL_EXPRESSION);
 
             int leftOperand =  dynamic_cast<Integer *>(leftExpression)->getValue();
             int rightOperand = dynamic_cast<Integer *>(rightExpression)->getValue();
@@ -122,7 +114,7 @@ private:
                 case SYNTAX::ADD_KEYWORD:   return new Integer(leftOperand + rightOperand);
                 case SYNTAX::SUB_KEYWORD:   return new Integer(leftOperand - rightOperand);
                 case SYNTAX::MUL_KEYWORD:   return new Integer(leftOperand * rightOperand);
-                case SYNTAX::DIV_KEYWORD:   return new Integer(leftOperand / rightOperand);
+                case SYNTAX::DIV_KEYWORD:   return new Integer(int(leftOperand / rightOperand));
                 case SYNTAX::MOD_KEYWORD:   return new Integer(leftOperand % rightOperand);
             }
         }
@@ -160,18 +152,17 @@ private:
         return executeExpression(expression);
     }
 
-
     Object* executeIdentifierExpression(IdentifierExpressionSyntax* identifierExpression){
         SyntaxToken *identifierToken = identifierExpression->getIdentifierToken();
         const string &key = identifierToken->getLexeme();
         return getSymbolTableValue(key);
     }
 
-
     Object* getSymbolTableValue(string key){
         const optional<Object *> &optionalStatement = symbolTable.findByKey(key);
-        if(!optionalStatement.has_value())
-            throw "CompilationError: Unexpected Identifier Token";
+
+        //Undefined identifier
+        assert(optionalStatement.has_value());
 
         return optionalStatement.value();
     }

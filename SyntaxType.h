@@ -36,6 +36,8 @@ public:
         PRT_KEYWORD,
         ASK_KEYWORD,
         PUT_KEYWORD,
+        TRUE_KEYWORD,
+        FALSE_KEYWORD,
 
         //Tokens
         BAD_TOKEN,
@@ -68,7 +70,8 @@ public:
         PARENTHESIZED_EXPRESSION,
         NUMBER_EXPRESSION,
         LITERAL_EXPRESSION,
-        IDENTIFIER_EXPRESSION
+        IDENTIFIER_EXPRESSION,
+        UNARY_EXPRESSION
     };
 
     static std::string toString(SYNTAX::TYPE type){
@@ -95,6 +98,8 @@ public:
             "PRT_KEYWORD",
             "ASK_KEYWORD",
             "PUT_KEYWORD",
+            "TRUE_KEYWORD",
+            "FALSE_KEYWORD",
             "BAD_TOKEN",
             "NUMBER_TOKEN",
             "WORD_TOKEN",
@@ -121,7 +126,8 @@ public:
             "PARENTHESIZED_EXPRESSION",
             "NUMBER_EXPRESSION",
             "LITERAL_EXPRESSION",
-            "IDENTIFIER_EXPRESSION"
+            "IDENTIFIER_EXPRESSION",
+            "UNARY_EXPRESSION"
         };
 
         return str[(unsigned long)type];

@@ -1,17 +1,13 @@
 variable {
-	INT integer;
-	BLN bool;
-	STG string;
-	INT sum;
-	INT diff;
-	INT quotient;
+	BLN boolean;
+	STG str;
 	INT result;
-	STG input;
+    	INT result;
 }
 code {
 	PRT $Chris Pujado - 19-43137$;
 	PRT $Input your name:$;
-	ASK input;
-	PUT SUB DIV MUL ADD 3 3 3 3 3 IN result;
+
+	PUT SUB (DIV (MUL (ADD 3 $HHH$) 3) 3) 3 IN result;
 	PRT result;
 }

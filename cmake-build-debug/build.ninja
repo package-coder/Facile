@@ -51,13 +51,13 @@ build cmake_object_order_depends_target_Facile: phony || CMakeFiles/Facile.dir
 
 build CMakeFiles/Facile.dir/main.cpp.obj: CXX_COMPILER__Facile_Debug C$:/Users/CHRIS/CLionProjects/Facile/main.cpp || cmake_object_order_depends_target_Facile
   DEP_FILE = CMakeFiles\Facile.dir\main.cpp.obj.d
-  FLAGS = -g
+  FLAGS = -static-libstdc++ -static-libgcc -g
   OBJECT_DIR = CMakeFiles\Facile.dir
   OBJECT_FILE_DIR = CMakeFiles\Facile.dir
 
 build CMakeFiles/Facile.dir/Scanner.cpp.obj: CXX_COMPILER__Facile_Debug C$:/Users/CHRIS/CLionProjects/Facile/Scanner.cpp || cmake_object_order_depends_target_Facile
   DEP_FILE = CMakeFiles\Facile.dir\Scanner.cpp.obj.d
-  FLAGS = -g
+  FLAGS = -static-libstdc++ -static-libgcc -g
   OBJECT_DIR = CMakeFiles\Facile.dir
   OBJECT_FILE_DIR = CMakeFiles\Facile.dir
 
@@ -70,7 +70,7 @@ build CMakeFiles/Facile.dir/Scanner.cpp.obj: CXX_COMPILER__Facile_Debug C$:/User
 # Link the executable Facile.exe
 
 build Facile.exe: CXX_EXECUTABLE_LINKER__Facile_Debug CMakeFiles/Facile.dir/main.cpp.obj CMakeFiles/Facile.dir/Scanner.cpp.obj
-  FLAGS = -g
+  FLAGS = -static-libstdc++ -static-libgcc -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Facile.dir
   POST_BUILD = cd .

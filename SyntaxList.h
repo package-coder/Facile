@@ -28,6 +28,8 @@ public:
             {"AND",			SYNTAX::AND_KEYWORD},
             {"OHR",			SYNTAX::OHR_KEYWORD},
             {"NON",			SYNTAX::NON_KEYWORD},
+            {"true",		SYNTAX::TRUE_KEYWORD},
+            {"false",		SYNTAX::FALSE_KEYWORD},
             {"{",           SYNTAX::OPEN_BRACE_TOKEN},
             {"}",           SYNTAX::CLOSE_BRACE_TOKEN},
             {"(",           SYNTAX::OPEN_PARENTHESIS_TOKEN},

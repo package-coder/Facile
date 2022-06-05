@@ -67,8 +67,6 @@ int main()
 
 
 
-    //(int)std::any_cast<KW_CODES>(var->value)
-
     if (!file) {
 
         cerr << "== File not found! ==" << endl;
@@ -81,12 +79,10 @@ int main()
     while(true){
 
         string input;
-        cout << ">> ";
-        getline(cin, input);
 
-        if(input.empty()) break;
 
-        Parser parser(input);
+
+        Parser parser(str.str());
         SyntaxTree* syntaxTree = parser.parse();
         Diagnostic diagnostic = parser.getDiagnostic();
 
@@ -94,15 +90,18 @@ int main()
             printErrors(diagnostic.getErrors());
         }
         else {
-            print((SyntaxNode *) syntaxTree->getVariableStatement()); //variable block
-            cout << endl;
-            print((SyntaxNode *) syntaxTree->getCodeStatement()); //code block
+//            print((SyntaxNode *) syntaxTree->getVariableStatement()); //variable block
+//            cout << endl;
+//            print((SyntaxNode *) syntaxTree->getCodeStatement()); //code block
 
             Compilation::execute(syntaxTree);
         }
         cout << endl << endl;
+
+        getline(cin, input);
     }
 
 
+    system("pause");
     return 0;
 }

@@ -23,8 +23,8 @@ protected:
 public:
     virtual SYNTAX::TYPE type() = 0;
 
-    bool matchType(Object& o){
-        return type() == o.type();
+    bool matchType(Object* o){
+        return type() == o->type();
     }
 
     virtual string toString(){
@@ -105,7 +105,6 @@ public:
         return ss.str();
     }
 };
-
 
 class Diagnostic{
     std::vector<string> errors;
@@ -192,7 +191,6 @@ public:
     }
 };
 
-
 class ExpressionSyntax : public SyntaxNode{};
 
 class IdentifierExpressionSyntax : public ExpressionSyntax{
@@ -265,6 +263,35 @@ public:
     }
 };
 
+class UnaryExpressionSyntax : public ExpressionSyntax{
+    SyntaxToken* unaryOperator;
+    ExpressionSyntax* expression;
+
+public:
+    UnaryExpressionSyntax(SyntaxToken *unaryOperator, ExpressionSyntax *expression) : unaryOperator(unaryOperator),
+                                                                                      expression(expression) {}
+
+    SYNTAX::TYPE getTokenType() override {
+        return SYNTAX::UNARY_EXPRESSION;
+    }
+
+    vector<SyntaxNode *> getChildren() override {
+        return { unaryOperator, expression };
+    }
+
+    vector<SyntaxNode *> getDataChildren() override {
+        return { expression };
+    }
+
+    SyntaxToken *getOperator() const {
+        return unaryOperator;
+    }
+
+    ExpressionSyntax *getExpression() const {
+        return expression;
+    }
+};
+
 class BinaryExpressionSyntax : public ExpressionSyntax{
     SyntaxToken* operatorToken;
     ExpressionSyntax* leftOperand;
@@ -298,6 +325,8 @@ public:
         return rightOperand;
     }
 };
+
+class BooleanBinary
 
 class ParenthesizedExpressionSyntax : public ExpressionSyntax{
     SyntaxToken* openParenthesisToken;
@@ -717,12 +746,6 @@ public:
                 return parsePutStatement();
             case SYNTAX::ASK_KEYWORD:
                 return parseAskStatement();
-            case SYNTAX::ADD_KEYWORD:
-            case SYNTAX::SUB_KEYWORD:
-            case SYNTAX::MUL_KEYWORD:
-            case SYNTAX::DIV_KEYWORD:
-            case SYNTAX::MOD_KEYWORD:
-                return parseExpression();
         }
 
         std::stringstream ss;
@@ -761,6 +784,13 @@ public:
         SyntaxToken *currentToken = getCurrentToken();
 
         switch (currentToken->getTokenType()) {
+            case SYNTAX::GRT_KEYWORD:
+            case SYNTAX::GRE_KEYWORD:
+            case SYNTAX::LET_KEYWORD:
+            case SYNTAX::LEE_KEYWORD:
+            case SYNTAX::EQL_KEYWORD:
+            case SYNTAX::AND_KEYWORD:
+            case SYNTAX::OHR_KEYWORD:
             case SYNTAX::ADD_KEYWORD:
             case SYNTAX::SUB_KEYWORD:
             case SYNTAX::MUL_KEYWORD:
@@ -770,10 +800,14 @@ public:
                 ExpressionSyntax* leftOperand = parseExpression();
                 ExpressionSyntax* rightOperand = parseExpression();
                 return new BinaryExpressionSyntax(operatorToken, leftOperand, rightOperand);
+            case SYNTAX::NON_KEYWORD:
+                SyntaxToken* operatorToken = nextToken();
+                return
         }
 
         return parsePrimaryExpression();
     }
+
 
     ExpressionSyntax* parsePrimaryExpression() {
         SyntaxToken *currentToken = getCurrentToken();
@@ -783,8 +817,10 @@ public:
                 return parseParenthesizedExpression();
             case SYNTAX::NUMBER_TOKEN:
                 return parseNumberLiteral();
+            case SYNTAX::TRUE_KEYWORD:
+            case SYNTAX::FALSE_KEYWORD:
             case SYNTAX::STRING_TOKEN:
-                return parseStringLiteral();
+                return parseLiteral();
             default:
                 return parseIdentifierExpression();
         }
@@ -807,9 +843,9 @@ public:
         return new NumberExpressionSyntax(numberToken);
     }
 
-    ExpressionSyntax* parseStringLiteral(){
-        SyntaxToken* stringToken = moveNextTokenIfMatch(SYNTAX::STRING_TOKEN);
-        return new LiteralExpressionSyntax(stringToken);
+    ExpressionSyntax* parseLiteral(){
+        SyntaxToken* literalToken = moveNextTokenIfMatch(SYNTAX::STRING_TOKEN);
+        return new LiteralExpressionSyntax(literalToken);
     }
 
     SyntaxNode* parseVariableStatement(){
